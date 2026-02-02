@@ -131,7 +131,7 @@ Options:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/mcp-transform-proxy.git
+git clone https://github.com/bbrowning/mcp-transform-proxy.git
 cd mcp-transform-proxy
 
 # Create virtual environment

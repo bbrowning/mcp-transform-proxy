@@ -41,8 +41,8 @@ dev = [
 mcp-transform-proxy = "mcp_transform_proxy.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/your-org/mcp-transform-proxy"
-Repository = "https://github.com/your-org/mcp-transform-proxy"
+Homepage = "https://github.com/bbrowning/mcp-transform-proxy"
+Repository = "https://github.com/bbrowning/mcp-transform-proxy"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/mcp_transform_proxy"]
