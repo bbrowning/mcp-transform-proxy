@@ -33,21 +33,6 @@ pip install mcp-transform-proxy
 mcp-transform-proxy --config config.json
 ```
 
-## Claude Desktop Integration
-
-Add to your Claude Desktop configuration (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
-
-```json
-{
-  "mcpServers": {
-    "my-proxy": {
-      "command": "mcp-transform-proxy",
-      "args": ["--config", "/path/to/config.json"]
-    }
-  }
-}
-```
-
 ## Configuration
 
 ### Full Configuration Example
