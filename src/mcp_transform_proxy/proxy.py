@@ -21,7 +21,7 @@ def build_tool_transforms(
     Tool names are prefixed with the server name by FastMCP's composite proxy,
     so we need to account for that when building the transforms.
 
-    Returns a tuple of (transforms dict, set of disabled tool keys).
+    Returns a tuple of (transforms dict, set of disabled tool names).
     """
     transforms: dict[str, FastMCPToolTransformConfig] = {}
     disabled_tools: set[str] = set()
@@ -30,7 +30,7 @@ def build_tool_transforms(
         prefixed_name = f"{server_name}_{tool_name}"
 
         if not tool_config.enabled:
-            disabled_tools.add(f"tool:{prefixed_name}")
+            disabled_tools.add(prefixed_name)
             continue
 
         arg_transforms: dict[str, ArgTransformConfig] = {}
@@ -76,7 +76,7 @@ def create_proxy_server(config: Config) -> FastMCP:
         proxy.add_transform(ToolTransform(all_transforms))
 
     if all_disabled:
-        proxy.disable(keys=all_disabled)
+        proxy.disable(names=all_disabled)
 
     return proxy
 

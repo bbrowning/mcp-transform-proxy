@@ -51,7 +51,7 @@ class TestBuildToolTransforms:
         )
         transforms, disabled = build_tool_transforms("test", server_config)
         assert "test_hidden_tool" not in transforms
-        assert "tool:test_hidden_tool" in disabled
+        assert "test_hidden_tool" in disabled
 
     def test_argument_transforms(self):
         server_config = ServerConfig(
@@ -104,7 +104,7 @@ class TestBuildToolTransforms:
         transforms, disabled = build_tool_transforms("srv", server_config)
         assert "srv_visible" in transforms
         assert "srv_hidden" not in transforms
-        assert "tool:srv_hidden" in disabled
+        assert "srv_hidden" in disabled
 
 
 class TestCreateProxyServer:
@@ -238,4 +238,4 @@ class TestCreateProxyServer:
 
         mock_proxy.disable.assert_called_once()
         call_args = mock_proxy.disable.call_args
-        assert "tool:test_hidden_tool" in call_args[1]["keys"]
+        assert "test_hidden_tool" in call_args[1]["names"]
