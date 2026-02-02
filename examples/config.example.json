@@ -1,0 +1,39 @@
+{
+  "proxy": {
+    "name": "MyToolProxy",
+    "transport": "stdio"
+  },
+  "mcpServers": {
+    "weather": {
+      "url": "https://weather-api.example.com/mcp",
+      "tools": {
+        "get_weather": {
+          "name": "check_weather",
+          "description": "Check current weather conditions. Use this when the user asks about weather in their area.",
+          "arguments": {
+            "units": {
+              "default": "metric",
+              "hide": true
+            },
+            "location": {
+              "name": "city",
+              "description": "City name to check weather for"
+            }
+          }
+        },
+        "internal_debug_tool": {
+          "enabled": false
+        }
+      }
+    },
+    "calendar": {
+      "url": "https://calendar-api.example.com/mcp",
+      "transport": "sse",
+      "tools": {
+        "create_event": {
+          "description": "Create a calendar event. Use this when the user wants to schedule something."
+        }
+      }
+    }
+  }
+}
