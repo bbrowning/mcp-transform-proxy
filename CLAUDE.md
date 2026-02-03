@@ -50,3 +50,50 @@ The codebase has four main modules in `src/mcp_transform_proxy/`:
 - Transformations are applied via FastMCP's `ToolTransform` class. Disabled tools use FastMCP's `disable()` method.
 
 - Supports two transport modes: `stdio` (default, for Claude Desktop integration) and `http` (for debugging/testing).
+
+## Code Quality Standards
+
+### Testing Requirements
+- Every new feature or bug fix must include tests
+- Maintain or improve test coverage (never decrease)
+- Tests should be focused and test one thing
+- Use pytest fixtures for shared setup
+
+### Code Organization
+- Keep functions small and focused (single responsibility)
+- Prefer composition over inheritance
+- Keep modules cohesive (~300 line soft limit)
+- Clear separation between business logic and I/O
+
+### Type Safety
+- Full type annotations on all public functions
+- Use strict mypy (already configured)
+- Prefer explicit types over `Any`
+
+### Refactoring as You Go
+- Boy Scout Rule: leave code cleaner than you found it
+- Extract duplicated logic into shared functions
+- Remove dead code immediately
+
+### Technical Debt Awareness
+- Flag tech debt with `# TODO:` comments including context
+- Prefer fixing small issues immediately over adding TODOs
+- Document workarounds with "why" and "when removable"
+
+### Quality Gates
+- All changes must pass: `uv run pytest`, `uv run ruff check .`, `uv run mypy src`
+- Pre-commit hooks enforce this automatically
+- Install pre-commit hooks: `uv run pre-commit install`
+
+### Refactoring Session Checklist
+When doing code review or refactoring, look for:
+- Duplicated code
+- Long functions (>50 lines)
+- Deep nesting (>3 levels)
+- Unclear names
+- Unused imports/variables
+- Missing type hints
+- TODO comments that can now be resolved
+- Test coverage gaps
+
+Run `uv run ruff check . --statistics` to see issue patterns.

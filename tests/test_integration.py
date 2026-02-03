@@ -71,7 +71,9 @@ DUMMY_SERVER_SCRIPT = textwrap.dedent('''
 ''')
 
 
-async def start_server(tmp_path: Path, script: str, name: str) -> tuple[asyncio.subprocess.Process, str]:
+async def start_server(
+    tmp_path: Path, script: str, name: str
+) -> tuple[asyncio.subprocess.Process, str]:
     """Start an MCP server subprocess and wait for it to be ready."""
     port = find_free_port()
     server_script = tmp_path / f"{name}_server.py"
