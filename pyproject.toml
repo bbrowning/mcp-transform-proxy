@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "mcp-transform-proxy"
-version = "0.1.1"
+version = "0.1.2"
 description = "A CLI proxy for MCP servers with configurable tool transformations"
 readme = "README.md"
 license = "MIT"
