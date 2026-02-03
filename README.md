@@ -127,6 +127,38 @@ Options:
   --help                 Show this message and exit
 ```
 
+## Container Usage
+
+### Running with Podman/Docker
+
+```bash
+# Pull the image
+podman pull quay.io/bbrowning/mcp-transform-proxy:latest
+
+# Run with a config file
+podman run -v ./config.json:/config/config.json:ro \
+  quay.io/bbrowning/mcp-transform-proxy:latest
+
+# Run in HTTP mode for testing
+podman run -p 8080:8080 -v ./config.json:/config/config.json:ro \
+  quay.io/bbrowning/mcp-transform-proxy:latest \
+  --config /config/config.json --transport http
+```
+
+### Building the Container
+
+```bash
+# Build with podman
+make build-container
+
+# Build with docker
+make build-container CONTAINER_ENGINE=docker
+```
+
+### OpenShift Deployment
+
+See [docs/openshift-deployment.md](docs/openshift-deployment.md) for deploying to OpenShift with Kustomize manifests.
+
 ## Development
 
 ```bash

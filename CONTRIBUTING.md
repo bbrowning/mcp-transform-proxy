@@ -7,79 +7,91 @@
 git clone https://github.com/bbrowning/mcp-transform-proxy.git
 cd mcp-transform-proxy
 
-# Create virtual environment
-python -m venv .venv
-source .venv/bin/activate
+# Install dependencies (requires uv)
+make install
 
-# Install in development mode with dev dependencies
-pip install -e ".[dev]"
+# Run all quality gates (lint, typecheck, test)
+make check
 
-# Run tests
-pytest
-
-# Run linter
-ruff check .
-
-# Run type checker
-mypy src
+# Or run individually
+make lint       # ruff check
+make typecheck  # mypy
+make test       # pytest
 ```
 
 ## Release Process
 
 ### 1. Update Version
 
-Edit `pyproject.toml` and update the version number:
-
-```toml
-version = "X.Y.Z"
+```bash
+make set-version NEW_VERSION=X.Y.Z
 ```
 
-### 2. Build the Package
+This updates both `pyproject.toml` and `src/mcp_transform_proxy/__init__.py`.
+
+### 2. Run Quality Gates
 
 ```bash
-# Install build tools if needed
-pip install build twine
-
-# Clean previous builds
-rm -rf dist/
-
-# Build source distribution and wheel
-python -m build
+make check
 ```
 
-This creates:
-- `dist/mcp_transform_proxy-X.Y.Z.tar.gz` (source distribution)
-- `dist/mcp_transform_proxy-X.Y.Z-py3-none-any.whl` (wheel)
+All tests, linting, and type checking must pass.
 
-### 3. Test on TestPyPI (Optional)
+### 3. Build Everything
 
 ```bash
-# Upload to TestPyPI
-twine upload --repository testpypi dist/*
+# Build Python wheel/sdist and container image
+make build
 
-# Test install in a fresh environment
-pip install --index-url https://test.pypi.org/simple/ mcp-transform-proxy
+# Or build separately
+make build-python     # wheel and sdist only
+make build-container  # container image only
 ```
 
-### 4. Publish to PyPI
+### 4. Full Release (Recommended)
 
 ```bash
-twine upload dist/*
+make release
 ```
 
-When prompted:
+This runs: `check` → `build` → `tag` → `push-images` → `release-pypi`
+
+### 5. Manual Release Steps (Alternative)
+
+If you need to run steps individually:
+
+```bash
+# Create and push git tag
+make tag
+
+# Push container images to registry
+make push-images
+
+# Upload to PyPI (requires TWINE_USERNAME and TWINE_PASSWORD)
+make release-pypi
+```
+
+For PyPI authentication:
 - Username: `__token__`
 - Password: Your PyPI API token (including the `pypi-` prefix)
 
-### 5. Create GitHub Release
+### 6. Create GitHub Release
 
-1. Tag the release: `git tag vX.Y.Z && git push origin vX.Y.Z`
-2. Create a release on GitHub from the tag
+1. Go to the GitHub releases page
+2. Create a release from the `vX.Y.Z` tag
 3. Include release notes describing changes
+
+### Container Registry
+
+By default, images are pushed to `quay.io/bbrowning/mcp-transform-proxy`. Override with:
+
+```bash
+make push-images REGISTRY=your-registry.io REPOSITORY=your-org/mcp-transform-proxy
+```
 
 ## Code Style
 
 - Follow PEP 8 guidelines
 - Use type hints for all function signatures
-- Run `ruff check .` and `mypy src` before submitting PRs
-- All tests must pass (`pytest`)
+- Run `make check` before submitting PRs (runs lint, typecheck, and tests)
+- Install pre-commit hooks: `uv run pre-commit install`

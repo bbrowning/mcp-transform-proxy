@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mcp-transform-proxy-config
+  namespace: mcp-transform-proxy
+  labels:
+    app.kubernetes.io/name: mcp-transform-proxy
+data:
+  config.json: |
+    {
+      "proxy": {
+        "name": "OpenShift MCP Proxy",
+        "transport": "http",
+        "port": 8080
+      },
+      "mcpServers": {
+        "filesystem": {
+          "url": "http://openshift-filesystem-mcp.openshift-filesystem-mcp.svc:8080/sse",
+          "transport": "sse",
+          "tools": {
+            "read_text_file": {
+              "name": "read_text_file_on_openshift_node",
+              "description": "Read a text file from an OpenShift cluster node. Use this to inspect configuration files, logs, or system state on the node where the filesystem MCP server is running."
+            },
+            "list_directory": {
+              "name": "list_directory_on_openshift_node",
+              "description": "List directory contents on an OpenShift node. Use this to explore the filesystem structure of the node where the filesystem MCP server is running."
+            },
+            "get_file_info": {
+              "name": "get_file_info_on_openshift_node",
+              "description": "Get file metadata (size, permissions, timestamps) for a file on an OpenShift node."
+            },
+            "write_file": {
+              "enabled": false
+            },
+            "edit_file": {
+              "enabled": false
+            },
+            "move_file": {
+              "enabled": false
+            },
+            "create_directory": {
+              "enabled": false
+            }
+          }
+        }
+      }
+    }
